@@ -59,6 +59,7 @@ String checkClient(){
 }
 
 //Gestione degli eventi quando si preme il dashbutton
+/*
 void dashOnOff() {
 	checkClient();
 	String requestUrl = server.uri(); 
@@ -79,7 +80,7 @@ void dashOnOff() {
 		dash1Found = false;
 	}
 }
-
+*/
 
 //Gestione degli eventi quando si accede dalla pagina web
 void webOnOff() {
@@ -88,7 +89,7 @@ void webOnOff() {
 	Serial.println("Connected client: " + checkClient());
 	updateHTML(digitalRead(RELAY_Pin),checkClient());
 	updateHTML(digitalRead(LED_BUILTIN),checkClient());
-	if (requestUrl.indexOf("LED") != -1){
+	if (requestUrl.indexOf("LED") != -1 || dash1Found){
 		pinMode(LED_BUILTIN, OUTPUT);
 		if( digitalRead(LED_BUILTIN) == HIGH ){
 			digitalWrite(LED_BUILTIN, LOW);
@@ -98,6 +99,7 @@ void webOnOff() {
 			digitalWrite(LED_BUILTIN, HIGH);
 			Serial.println("Switched LED OFF");
 		}
+		dash1Found = false;
 	}
 	if (requestUrl.indexOf("RELE") != -1){
 		pinMode(RELAY_Pin, OUTPUT);
