@@ -7,8 +7,6 @@ extern "C" {
 
 #define RELAY_Pin 5 
 
-
-
 String webpage = "";
 const char* ssid = "xxxx";             
 const char* password = "xxxx"; 
