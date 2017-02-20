@@ -33,7 +33,8 @@ void setup() {
 void loop(){
 	server.handleClient();   // Wait for a client to connect and when they do process their request
 	if (dash1Found){
-		dashOnOff();
+		//dashOnOff();
+		webOnOff();
 	}
 }
 
