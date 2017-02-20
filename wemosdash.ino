@@ -59,8 +59,7 @@ String checkClient(){
 	return ipClient;
 }
 
-//Gestione degli eventi quando si preme il dashbutton
-/*
+//Non usato,integrato nel webOnOff...
 void dashOnOff() {
 	checkClient();
 	String requestUrl = server.uri(); 
@@ -81,7 +80,7 @@ void dashOnOff() {
 		dash1Found = false;
 	}
 }
-*/
+
 
 //Gestione degli eventi quando si accede dalla pagina web
 void webOnOff() {
