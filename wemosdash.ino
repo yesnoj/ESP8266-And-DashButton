@@ -37,11 +37,13 @@ void loop(){
 	}
 }
 
+//Inizializza la pagina web con i valori attuali dei pin
 void initializePage(){
 	updateHTML(digitalRead(RELAY_Pin),checkClient());
 	updateHTML(digitalRead(LED_BUILTIN),checkClient());
 }
 
+//Inizializza i pin a LOW
 void initializePins(){
 	pinMode(LED_BUILTIN, OUTPUT);
 	digitalWrite(LED_BUILTIN, LOW);
@@ -49,13 +51,14 @@ void initializePins(){
 	digitalWrite(RELAY_Pin, LOW);
 }
 
+//Restituisce l'IP del client
 String checkClient(){
 	WiFiClient clientConnected = server.client();
 	String ipClient = clientConnected.remoteIP().toString();
 	return ipClient;
 }
 
-
+//Gestione degli eventi quando si preme il dashbutton
 void dashOnOff() {
 	checkClient();
 	String requestUrl = server.uri(); 
@@ -78,7 +81,7 @@ void dashOnOff() {
 }
 
 
-
+//Gestione degli eventi quando si accede dalla pagina web
 void webOnOff() {
 	checkClient();
 	String requestUrl = server.uri(); 
@@ -110,6 +113,8 @@ void webOnOff() {
 	initializePage();
 }
 
+
+//Aggiorna la pagina del webserver
 void updateHTML(int status,String IP){
 	pinMode(LED_BUILTIN, OUTPUT);
 	String webpage = "";
@@ -123,7 +128,6 @@ void updateHTML(int status,String IP){
 	webpage += "<br><br>";
 	webpage += "<input type=\"button\" value=\"LED " + String((digitalRead(LED_BUILTIN) == HIGH)?"ON":"OFF") +" \" + onclick=\"window.location.href=\'/LED\'\">";
 
-	Jonsey, [20.02.17 15:44]
 	webpage += "<div id=\"section\"><h2>Relè Status</h2>";
 	webpage += "Status : " + String((digitalRead(RELAY_Pin) == HIGH)?"ON":"OFF");
 	webpage += "<br><br>";
@@ -135,6 +139,7 @@ void updateHTML(int status,String IP){
 	delay(1000);
 }
 
+//Serve per intercettare l'evento "click" sul dashbutton e setta la variabile "dash1Found" a true.
 void ICACHE_FLASH_ATTR wifi_handle_event_cb(System_Event_t *evt) {
 	//printf("Free heap size: %d\n", system_get_free_heap_size());
 	if (evt->event != EVENT_SOFTAPMODE_STACONNECTED) ;
@@ -175,6 +180,7 @@ void connectToWIFI(){
 	wifi_set_event_handler_cb(wifi_handle_event_cb);
 }
 
+//Non usato
 void setStaticIP(){
 	//uint32_t ipAddress = parseIPV4string(ipAddressString);
 	//uint32_t netMask = parseIPV4string(netMaskString);
@@ -187,13 +193,14 @@ void setStaticIP(){
 	WiFi.config(ip, gateway, netmask);
 }
 
+//Non usato
 String getStrMAC (uint8_t mac [6] ) {
 	String res = String (mac [0 ], HEX) + ":" + String (mac [1], HEX) + ":" + String (mac [2], HEX) + ":" +
 	String (mac [3], HEX ) + ":" + String (mac [4], HEX) + ":" + String (mac [5], HEX);
 	return res;
 }
 
-//IN CONFLITTO CON QUALCOSA...
+//Non usato, va in conflitto con qualcosa
 uint32_t parseIPV4string(const char* ipAddress) {
 	char ipbytes[4];
 	sscanf(ipAddress, "%uhh.%uhh.%uhh.%uhh", &ipbytes[3], &ipbytes[2], &ipbytes[1], &ipbytes[0]);
