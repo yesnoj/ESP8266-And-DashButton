@@ -10,20 +10,13 @@ extern "C" {
 
 
 String webpage = "";
-//const char* ssid = "Telecom-02031983";             
-//const char* password = "euscimmoarimirarlestelle";
-const char* ssid = "OnePlus3";             
-const char* password = "ciaomamma"; 
+const char* ssid = "xxxx";             
+const char* password = "xxxx"; 
 const char* ipAddressString = "192.168.1.107";
 const char* netMaskString = "255.255.0.0";
 const char* gateWayString = "192.168.1.1";
-uint8_t dash1ButtonMAC [6] = {0xAC , 0x63, 0xBE, 0x78, 0x80, 0x26}; 
+uint8_t dash1ButtonMAC [6] = {0xXX , 0xXX, 0xXX, 0xXX, 0xXX, 0xXX}; 
 boolean dash1Found = false;
-
-WiFiUDP Udp;
-unsigned int localUdpPort = 67;  // local port to listen on
-char incomingPacket[255];  // buffer for incoming packets
-char  replyPacekt[] = "Hi there! Got the message 😊";  // a reply string to send back
 
 ESP8266WebServer server(666); 
 
@@ -162,7 +155,6 @@ void ICACHE_FLASH_ATTR wifi_handle_event_cb(System_Event_t *evt) {
 
 void connectToWIFI(){
 	Serial.begin(115200);
-
 	WiFi.mode(WIFI_AP_STA);
 	WiFi.begin(ssid, password);
 	delay(100);
