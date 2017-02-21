@@ -9,8 +9,8 @@ extern "C" {
 #define RELAY_Pin 5
 byte channel = 5; // WiFi channel (1-13)
 String webpage = "";
-static const char* ssid = "Telecom-02031983";
-static const char* password = "euscimmoarimirarlestelle";
+static const char* ssid = "blablabla";
+static const char* password = "blablabla";
 static uint8_t dash1ButtonMAC [6] = {0xAC , 0x63, 0xBE, 0x78, 0x80, 0x26};
 unsigned long lastMillis = 0;
 boolean dash1Found = false;
