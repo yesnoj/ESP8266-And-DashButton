@@ -5,7 +5,7 @@ Script for use the Dash Button from Amazon with an Arduino D1 mini
 
 Press the dashbutton for 6 seconds and a new network called "Amazon ConfigureMe" will appear. Connecting to it we can see different informations like Button’s serial number, MAC address, and firmware version , like in the following image:
 
-![dash-page](https://cloud.githubusercontent.com/assets/6757126/23156330/be7a49a4-f816-11e6-9296-1c7573e04482.png)
+![dash-page](https://cloud.githubusercontent.com/assets/6757126/23156503/7ddeffce-f817-11e6-8eb4-1bf484c201da.png)
 
 Once we have the mac address,and always connected to "Amazon ConfigureMe" network, we can use this info to register manually the dashbutton using this GET :
 
