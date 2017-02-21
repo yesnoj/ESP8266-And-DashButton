@@ -1,70 +1,69 @@
- #include <ESP8266WiFi.h>
- #include "ESP_Promiscuous.h"
+  #include "ESP_Promiscuous.h"
 
- // necessary to use the promiscuous mode API
  extern "C" {
    #include <user_interface.h>
  }
 
- // WiFi connection block Reference: http: // qiita.com /azusa9/items/7f78069cb09872cf6cbf
- char toSSID [] = "SSID" ;
- char ssidPASSWD [] = "Password" ;
+ byte channel = 5; // WiFi channel (1-13)
+ uint8_t targetMAC1 [6] = {0x12 , 0x34, 0x56, 0x78, 0x9a, 0xbc}; // Amazon Dash Button MAC address
+ int detectInterval = 8000; // msec
 
- // callback when receiving packet in promiscuous mode
+ unsigned long lastDetectedMillis = 0;
+ boolean ADBdetectingNow = false; // Amazon Dash Button event detection flag
+
  static void ICACHE_FLASH_ATTR promisc_cb (uint8_t * buf , uint16_t len)
  {
-   if (len = 128!) return ; // In order to discard both unknown packets and data packets
+     Ignore if // Amazon Dash Button event detection in (detectInterval specified number of milliseconds); if (ADBdetectingNow) return
 
-   struct sniffer_buf2 * sniffer = (struct sniffer_buf2 *) buf;
-   struct MAC_header * mac = (struct MAC_header *) sniffer -> buf;
+     if (len == 12) {
+       // No accurate information about MAC address and length of the head of packet.
+       struct RxControl * sniffer = (struct RxControl *) buf;
+       return;
+     } Else if (len == 128) {
+       // Management Packet
+       struct sniffer_buf2 * sniffer = (struct sniffer_buf2 *) buf;
+       struct MAC_header * mac = (struct MAC_header *) sniffer -> buf;
 
-   int i;
-   boolean beaconFlag = true;
+       int i;
+       boolean MAC_Matching_Flag = true;
 
-   for (i = 0; i < 6; i ++) if (mac ->! addr2 [i] = mac -> addr3 [i]) beaconFlag = false;
+       for (i = 0; i < 6; i ++) if (mac ->! addr2 [i] = targetMAC1 [i]) MAC_Matching_Flag = false;
 
-   if (beaconFlag) return; // In order to remove beacon Packet
+       if (MAC_Matching_Flag!) return; // No hit
 
-    Serial print ( "Possible MAC Address :");
-   for (i = 0; i < 6; i ++) {
-      Serial print (mac -> addr2 [i], HEX);
-      Serial print ( ":") ;
-   }
-    Serial println ( "");
+       // Handle it.
+       . Serial println ( "ADB push detected .");
+       ADBdetectingNow = true;
+       lastDetectedMillis = millis ();
+
+       return;
+
+     } Else {
+       // Data Packet
+       struct sniffer_buf * sniffer = (struct sniffer_buf *) buf;
+       struct MAC_header * mac = (struct MAC_header *) sniffer -> buf;
+
+       return;
+     }
  }
 
- void setup () {
-   byte channel;
-   Serial begin (115200);
-
-   WiFi mode (WIFI_STA);
-   WiFi begin (toSSID, ssidPASSWD) ;
-
-   Serial print ( "WiFi connecting. ");
-
-   while (WiFi. status ()! = WL_CONNECTED) {
-     delay (1000);
-     Serial print ( ".") ;
-   }
-
-   Serial println ( "");
-
-   channel = wifi_get_channel ();
-   Serial print ( "Your WiFi Channel :");
-   Serial println (channel);
-   WiFi disconnect ();
-
-   Serial println ( "");
-
-   Serial println ( "ESP8266 promiscuous mode started.");
-   Serial println ( "Please push Amazon Dash Button");
-   Serial println ( "");
-
+ void setup () {  
+   . Serial begin (115200);
    wifi_set_opmode (STATION_MODE);
    wifi_set_channel (channel);
    wifi_set_promiscuous_rx_cb (promisc_cb);
 
+   // Start!
    wifi_promiscuous_enable (1);
  }
 
- void loop () {}
+ void loop () {
+   unsigned long interval;
+   if (lastDetectedMillis> millis ()) // If the running time is 49.7 days beyond millis () overflows
+     interval = (0xffffffff - lastDetectedMillis) + millis ();
+   Else
+     interval = millis () - lastDetectedMillis;
+
+   if (interval> detectInterval)
+     ADBdetectingNow = false;
+ }
