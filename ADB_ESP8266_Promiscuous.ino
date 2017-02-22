@@ -1,6 +1,6 @@
 #include <ESP8266WiFi.h>
 #include <ESP8266WebServer.h>
-#include "ESP8266_Promiscuous.h"
+#include "ESP_Promiscuous.h"
 
 extern "C" {
 #include <user_interface.h>
@@ -9,9 +9,9 @@ extern "C" {
 #define RELAY_Pin 5
 byte channel = 5; // WiFi channel (1-13)
 String webpage = "";
-static const char* ssid = "blablabla";
-static const char* password = "blablabla";
-static uint8_t dash1ButtonMAC [6] = {0xAC , 0x63, 0xBE, 0x78, 0x80, 0x26};
+static const char* ssid = "Telecom-02031983";
+static const char* password = "euscimmoarimirarlestelle";
+static uint8_t dash1ButtonMAC [6] = {0x34 , 0xD2, 0x70, 0x1A, 0x80, 0x15};
 unsigned long lastMillis = 0;
 boolean dash1Found = false;
 
@@ -122,6 +122,7 @@ void initializePins() {
 void webOnOff() {
   String requestUrl = server.uri();
   if (dash1Found) {
+    pinMode(LED_BUILTIN, OUTPUT);
     digitalWrite(LED_BUILTIN, !digitalRead(LED_BUILTIN));
     Serial.println("Switched LED ON/OFF");
   }
