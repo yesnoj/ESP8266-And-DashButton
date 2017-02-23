@@ -72,7 +72,7 @@ void connectWiFi() {
   }
   Serial.print("\nConnected to IP address: ");
   Serial.println(WiFi.localIP());
-  WiFi.softAP(WLAN_SSID, "xxx");
+  WiFi.softAP(WLAN_SSID, "fakepassword");
   wifi_set_event_handler_cb(wifi_handle_event_cb);
 }
 
