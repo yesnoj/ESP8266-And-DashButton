@@ -9,8 +9,8 @@ extern "C" {
 
 #define RELAY_Pin D1
 #define LED_Pin 2
-#define WLAN_SSID       "routerSSID"
-#define WLAN_PASS       "routerPASSWORD"
+#define WLAN_SSID       "roterSSID"
+#define WLAN_PASS       "rooterPass"
 
 struct softap_config config;
 uint8_t monitoringMAC1[6] = {0x34 , 0xD2, 0x70, 0x1A, 0x80, 0x15};
@@ -71,10 +71,10 @@ void connectWiFi() {
     Serial.print("\nCould not connect to network...");
     while (1) delay(500);
   }
-  //WiFi.softAP("");
+  WiFi.softAP("ESPap","thereisnospoon");
   Serial.print("\nSoftAP IP address: ");
   Serial.println(WiFi.softAPIP());
-  Serial.print("Local to IP address: ");
+  Serial.print("Local IP address: ");
   Serial.println(WiFi.localIP());
   wifi_set_event_handler_cb(wifi_handle_event_cb);
 }
