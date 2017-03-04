@@ -2,6 +2,7 @@
 #include <WiFiClient.h> 
 #include <ESP8266WebServer.h>
 
+
 extern "C" {
   #include <user_interface.h>
 }
@@ -79,11 +80,13 @@ void initializePage() {
   updateHTML(checkClient());
 }
 
+
 String checkClient() {
   WiFiClient clientConnected = server.client();
   String ipClient = clientConnected.remoteIP().toString();
   return ipClient;
 }
+
 
 //Aggiorna la pagina del webserver
 void updateHTML(String IP) {
