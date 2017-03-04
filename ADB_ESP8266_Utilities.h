@@ -4,6 +4,9 @@
 ESP8266WebServer server(666);
 struct softap_config config;
 
+class Utilis
+{
+
 //Restituisce l'IP del client
 String checkClient(ESP8266WebServer server) {
   WiFiClient clientConnected = server.client();
@@ -54,3 +57,4 @@ String getStrMAC(uint8_t mac[6]) {
                String(mac[3], HEX) + ":" + String(mac[4], HEX) + ":" + String(mac[5], HEX);
   return res;
 }
+};
